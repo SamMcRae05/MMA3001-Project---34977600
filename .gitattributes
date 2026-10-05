@@ -1,0 +1,11 @@
+# Normalise line endings: Git stores text files with LF ("\n") line endings
+# internally, and converts to your operating system's style on checkout.
+# This stops Windows (CRLF) vs Linux/Mac (LF) differences showing up as
+# fake "changes" to every line of a file.
+* text=auto
+
+# Notebooks and data files
+*.ipynb text eol=lf
+*.parquet binary
+*.zip binary
+*.xlsx binary

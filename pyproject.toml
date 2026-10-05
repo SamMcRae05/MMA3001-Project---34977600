@@ -1,0 +1,49 @@
+# pyproject.toml - the single configuration file for this Python project.
+# It tells pip (Python's package installer) what this project is called,
+# which libraries it needs, and where its source code lives.
+#
+# Install everything (run from the repo folder, with the venv activated):
+#     pip install -e ".[dev]"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mma3001"
+version = "0.1.0"
+description = "MMA3001 project: numerical and data analysis of Monash smart-building occupancy and environmental sensor data."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "Sam McRae" }]
+requires-python = ">=3.10"
+
+# Libraries the project code needs to run.
+dependencies = [
+    "numpy",         # arrays and numerical maths
+    "pandas",        # tables of time-stamped data (DataFrames)
+    "pyarrow",       # reading/writing Parquet files (fast, compressed)
+    "scipy",         # interpolation, integration, optimisation, ODEs
+    "scikit-learn",  # regression models, cross-validation, metrics
+    "matplotlib",    # plotting
+    "openpyxl",      # reading the "Sensor ID and Locations.xlsx" file
+]
+
+[project.optional-dependencies]
+# Extra tools for developing, testing and documenting (not needed to just run the code).
+dev = [
+    "pytest",        # runs the test functions in tests/
+    "pytest-html",   # turns test results into an HTML report
+    "pdoc",          # generates HTML documentation from docstrings
+    "jupyter",       # notebooks
+    "nbstripout",    # clears notebook outputs before each commit
+]
+
+# Tell setuptools the importable code lives in src/
+[tool.setuptools.packages.find]
+where = ["src"]
+
+# pytest settings: where tests are, and make `pytest` alone do the right thing.
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v"

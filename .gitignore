@@ -218,3 +218,29 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# =====================================================================
+# Project-specific rules (MMA3001)
+# =====================================================================
+
+# --- Data: never commit the dataset -------------------------------
+# The raw CSVs are ~2 GB (over GitHub's 100 MB file limit) and belong to
+# Monash, so they are not ours to redistribute. Everything inside data/
+# is ignored EXCEPT the README that explains where the data comes from.
+data/*
+!data/README.md
+
+# Large/derived data formats anywhere in the repo
+*.zip
+*.parquet
+*.feather
+*.h5
+
+# Small sample data used by the tests IS committed (overrides the above)
+!tests/fixtures/**
+
+# --- Editor / OS clutter ------------------------------------------
+.vscode/
+Thumbs.db
+desktop.ini
+.DS_Store
