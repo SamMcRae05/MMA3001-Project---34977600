@@ -1,0 +1,5 @@
+"id","deviceid","floorspaceid","occupancystatus","headcount","collecteddate","occupancystatuschangedate","previousoccupancystatus"
+101,"dev-a","space-1","CurrentlyOccupied",1,"2023-11-24 00:36:52+11","2023-11-24 00:36:52+11","NotOccupied"
+102,"dev-a","space-1","RecentlyOccupied",0,"2023-11-24 00:37:32+11","2023-11-24 00:37:32+11","CurrentlyOccupied"
+103,"dev-a","space-2","CurrentlyOccupied",3,"2023-11-24 00:37:32+11","2023-11-24 00:37:32+11","NotOccupied"
+104,"dev-b","space-3","NotOccupied",0,"2024-06-14 09:00:00+10","2024-06-14 08:30:00+10","RecentlyOccupied"

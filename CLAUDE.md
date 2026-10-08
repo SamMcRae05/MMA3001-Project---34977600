@@ -12,6 +12,8 @@ human contributor.
   reproducibility, and AI-use reflection. See the brief for the rubric.
 
 ## Working agreement
+- **Ask before acting.** Before creating, changing, moving or deleting anything on Sam's
+  computer, say what you plan to do and wait for his go-ahead. A question gets an answer, not an action.
 - Sam makes all engineering decisions (question, method, validation) and all Git commits.
 - Claude edits files but never commits, pushes, or rewrites Git history.
 - Claude's shell cannot delete files by default: only run read-only Git commands, with
