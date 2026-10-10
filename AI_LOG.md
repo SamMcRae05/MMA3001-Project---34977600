@@ -43,3 +43,14 @@ project folders on my computer.
 | Asked for a time series of when each env sensor transmits, plus a summary table. | Added notebook section B5b: per-sensor table (first/last time, uploads, distinct measurement times, days with uploads) and per-sensor uploads-per-day plot (log scale). Results agree with the repeated-uploads check. | Reviewed Claude's code used to produce the plots, comppared the plots and takeaways against physical reasoning and existing knowledge of the dataset.  | Nothing was required to be changed in this step |
 
 **Reflection notes (6–8 Oct):** _TODO (Sam)_
+
+---
+
+## 2026-10-08 to 10 – Data cleaning (branch `data-cleaning`)
+
+| Task / prompt | AI output | How I verified it | What I changed / rejected |
+|---|---|---|---|
+| Asked Claude to write the de-duplication logic in a new `src/mma3001/cleaning.py` (I chose for Claude to write it provided a definition of a repeat). | Wrote `flag_repeated_uploads` / `remove_repeated_uploads` with documented assumptions, plus 14 tests in `tests/test_cleaning.py`. Checked on the real data: 136,600 repeats removed, 42,847 uploads kept – matching the audit's count, which was calculated a different way; re-running on cleaned data finds 0 repeats. Deliberately broke four parts of the logic in a scratch copy to confirm a test fails each time. | Examined the results and logic through the process seen in notebook. | Removed the entries Claude had flagged as "near repeats", as I felt they were either repeats or invalid data points. |
+| Asked for a cleaning notebook (`notebooks/02_cleaning.ipynb`). | Built three parts: de-duplication before/after and continuous usable periods; sensor error codes (described only, decision left to me), occupancy event regularity and an example conversion to a regular 15-minute series. | Ran every cell on the full data before adding it, and this time checked the actual plotted values (not just the number of points) after the earlier "frozen clock" mistake. |  |
+
+**Reflection notes (8–10 Oct):** _TODO (Sam)_
