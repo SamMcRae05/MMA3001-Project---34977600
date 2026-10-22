@@ -16,7 +16,7 @@ data/
 │   ├── 5EnvSensor_MayToDec2024_180kRows.csv          (~350 MB)
 │   ├── 5occupancySensor_MayToDec2024_9MRows.csv      (~1.6 GB)
 │   └── Sensor ID and Locations.xlsx
-└── processed/      (created by the code; cleaned data saved as Parquet)
+└── processed/      (empty – created by `paths.ensure_dirs()`; nothing is saved here)
 ```
 
 ## Raw file contents (as provided)
@@ -26,5 +26,6 @@ data/
 | Environmental sensors | `id, sensorid, devicetype, jsondata, status, processing_errors, createdate, processdate` — the readings themselves (e.g. battery voltage, CO2 in ppm) are nested inside the `jsondata` column as JSON text with Unix timestamps. |
 | Occupancy sensors | `id, deviceid, floorspaceid, occupancystatus, headcount, collecteddate, occupancystatuschangedate, previousoccupancystatus` |
 
-Rules: files in `raw/` are never modified. Anything the code produces goes in
-`processed/`.
+Rules: files in `raw/` are never modified. Cleaning is done in memory by the
+notebooks each time they run (see `src/mma3001/cleaning.py`), so no cleaned
+copy of the data is saved.
