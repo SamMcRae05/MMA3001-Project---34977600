@@ -1,10 +1,8 @@
 """
 Reconstructing gaps in an environmental sensor time series.
 
-Project question (comparative):
-Can missing values in C02 readings be reasonably reliably reconstructed using interpolation, 
-and how does reconstruction error grow with gap length when comparing linear interpolation 
-and cubic spline methods?
+Project question:
+Can missing values in C02 readings be reasonably reliably reconstructed using interpolation?
 
 Workflow:
     1. ``prepare_series``   - one sensor, one variable, as a time series.
