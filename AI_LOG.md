@@ -23,7 +23,6 @@ project folders on my computer.
 | Asked for explanation of how to clone repo into VSCODE specifically | Gave step-by-step set-up instructions. | Followed the steps myself: created the repo, configured Git, cloned it in VS Code. Checked in files to ensurue all included files had been cloned from the repository. | Nothing was changed, this was just a basic step giving assistance and reminders on how to clone a Github repository |
 | Asked Claude to create an example code skeleton to structure where I would work and save elements of the project. | Created `pyproject.toml`, `.gitattributes`, project rules in `.gitignore`, `src/mma3001/paths.py` + tests, `data/README.md`, README outline, `CLAUDE.md`, this log. | read each file, ran `pytest`._ | Largely re-wrote the README file and AI declaration |
 
-**Reflection notes:** _TODO (Sam) – anything learned, or anything the AI got wrong or unhelpful._
 
 ---
 
@@ -42,7 +41,7 @@ project folders on my computer.
 | I noticed temperature and CO₂ were constant for a whole week in the B6 `createdate` plot – physically implausible – and asked what was going on. | Investigated and corrected its earlier explanation: sensors were **re-sending the same old reading** (same time and value) every ~13 minutes. 136,600 of 179,447 uploads (76%) are exact repeats; three of the five env sensors contain only 1–3 genuine readings. Recommended de-duplication in a separate cleaning step. | This step was verification in itself, I questioned AI's portrayal of the data through it's chosen readings, the constant values over timeframes didn't seem physically plausible to me.| After plausbility check, I requested AI keep the misleading cells and graphs in the notebook to show my learning journey. |
 | Asked for a time series of when each env sensor transmits, plus a summary table. | Added notebook section B5b: per-sensor table (first/last time, uploads, distinct measurement times, days with uploads) and per-sensor uploads-per-day plot (log scale). Results agree with the repeated-uploads check. | Reviewed Claude's code used to produce the plots, comppared the plots and takeaways against physical reasoning and existing knowledge of the dataset.  | Nothing was required to be changed in this step |
 
-**Reflection notes (6–8 Oct):** _TODO (Sam)_
+
 
 ---
 
@@ -53,4 +52,30 @@ project folders on my computer.
 | Asked Claude to write the de-duplication logic in a new `src/mma3001/cleaning.py` (I chose for Claude to write it provided a definition of a repeat). | Wrote `flag_repeated_uploads` / `remove_repeated_uploads` with documented assumptions, plus 14 tests in `tests/test_cleaning.py`. Checked on the real data: 136,600 repeats removed, 42,847 uploads kept – matching the audit's count, which was calculated a different way; re-running on cleaned data finds 0 repeats. Deliberately broke four parts of the logic in a scratch copy to confirm a test fails each time. | Examined the results and logic through the process seen in notebook. | Removed the entries Claude had flagged as "near repeats", as I felt they were either repeats or invalid data points. |
 | Asked for a cleaning notebook (`notebooks/02_cleaning.ipynb`). | Built three parts: de-duplication before/after and continuous usable periods; sensor error codes (described only, decision left to me), occupancy event regularity and an example conversion to a regular 15-minute series. | Ran every cell on the full data before adding it, and this time checked the actual plotted values (not just the number of points) after the earlier "frozen clock" mistake. |  |
 
-**Reflection notes (8–10 Oct):** _TODO (Sam)_
+
+
+---
+
+## 2026-10-10 to 12 – Project question and gap-filling method (branch `gap-filling`)
+
+_Draft entries written by Claude on 22 Oct from the session record. The "How I verified" and "What I changed" columns need checking and rewriting by Sam._
+
+| Task / prompt | AI output | How I verified it | What I changed / rejected |
+|---|---|---|---|
+| Asked Claude to write the gap-filling code and tests, and a report file holding the assumptions and engineering choices (I write the report sections myself). | Wrote `src/mma3001/gapfill.py` (prepare, split, valid gap positions, make/fill gaps, evaluate on random gaps with all methods scored on the same gaps), `tests/test_gapfill.py`, and `report/report.md` with a decisions log (groups A–E). | Read through `gapfill.py`, ran pytest | Kept my own wording of the project question in the module docstring. |
+| Asked Claude to add a smoothing spline as a third method (after reading notes 3.4.16). | Added `make_smoothing_spline` with λ chosen automatically by GCV, plus tests. | compared the code to the code given in notes | altered how lam was set (set = none or a set value) |
+| Asked for bias and overshoot metrics and a cubic-spline end-condition setting. | Added `bias`, `frac_outside_range`, `max_overshoot`, `min/max_estimate` and `bc_type`. **AI errors:** two of Claude's new tests failed because the tests themselves were badly designed (the end-condition test used a context too long for the effect to show; the overshoot test put the step in the wrong place). Deliberately breaking the code also showed no test caught overshoot *below* the range, so a test was added (86 tests). | Asked Claude to explain conceptually what the end-condition and overshoot tests check and why they are needed. | retained the tests Claude wrote after understanding the errors |
+| Asked Claude to build `notebooks/03_gap_filling.ipynb`. | Built the notebook (settings cell, data checks, examples, main experiment, plausibility, sensitivity, cost, a guarded final-test cell). Tested on development data only; checked the test cell worked by temporarily swapping in development data, without anyone seeing test results. **AI error:** a 30-minute context crashed the experiment because `valid_gap_starts` did not guarantee enough readings each side of a gap. | Worked through every section and wrote my own observations in the ✍️ cells. | Add a minimum-readings check to the code rather than only noting it as a limitation. |
+| Minimum-readings check (my option (a) above). | Added `MIN_SIDE_READINGS = 3` to `valid_gap_starts` and 4 tests (90 tests). **AI errors:** Claude's first new test was itself wrong, and a deliberate miscount was not caught until the test data was changed. No results changed with the 2 h context. |  | |
+
+
+
+---
+
+## 2026-10-21 to 22 – Computational performance (branch `gap-filling`)
+
+| Task / prompt | AI output | How I verified it | What I changed / rejected |
+|---|---|---|---|
+| Asked Claude to add the computational performance section. | Added section 8.1 to notebook 03 (22 cells): FLOP estimates (marked as an AI draft), `timeit` breakdown, `cProfile` profile, scaling with data size, `tracemalloc` memory, a seed repeatability check and a baseline-vs-selected table. Tested on a copy with the test switched off, then inserted without changing my existing cells. **AI error:** Claude predicted `context_readings` was slow because it scans the whole series; the measurements showed the cost is mostly fixed pandas overhead, so the code already scales fine. The seed check showed linear and smoothing are effectively tied for gaps of 2 h or less. | Ran section 8.1 on my own computer and wrote my observations. Checked flop estimate methodology and calcs against notes | Agreed with the procedure of FLOPs calculations |
+
+
