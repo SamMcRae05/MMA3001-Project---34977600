@@ -59,7 +59,7 @@ by Sam; *Default (open)* = a starting setting that may change after exploring th
 
 | # | Decision / assumption | Who | Evidence / where |
 |---|---|---|---|
-| C1 | **Question (comparative)**, in Sam's wording (`gapfill.py` docstring): *"Can missing values in CO₂ readings be reasonably reliably reconstructed using interpolation, and how does reconstruction error grow with gap length when comparing linear interpolation and cubic spline methods?"* A smoothing spline has since been added as a third method (C6). No pass/fail accuracy threshold is used. | **Sam** | `src/mma3001/gapfill.py` |
+| C1 | **Question**, in Sam's wording (`gapfill.py` docstring): *"Can missing values in CO₂ readings be reasonably reliably reconstructed using interpolation?"* (Shortened on 22 Oct from an earlier comparative version that also asked how error grows with gap length for linear vs cubic spline.) Linear, cubic spline and smoothing spline (C6) are compared as the means of answering it. No pass/fail accuracy threshold is used. | **Sam** | `src/mma3001/gapfill.py` |
 | C2 | Variable: **CO₂** (ppm) only. | **Sam** | – |
 | C3 | Sensor **6012002000869** (spreadsheet: building 60, room G.38, "Compactus_upper"), period **29 Feb – 14 Jun 2024**: its longest continuous run (13,800 readings, ~105 days). | Sam (on AI suggestion) | `02_cleaning.ipynb` 1.5 |
 | C4 | Readings are normally 10 min apart; ~10% of spacings are 20 min (one missed reading); the largest is 30 min. | Data property | `02_cleaning.ipynb` 1.4 |
