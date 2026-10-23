@@ -244,3 +244,6 @@ data/*
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# Word's temporary lock files
+~$*

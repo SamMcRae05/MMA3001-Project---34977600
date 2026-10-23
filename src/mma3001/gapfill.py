@@ -13,7 +13,7 @@ Workflow:
                               or "smoothing").
     6. ``evaluate``         - repeat 3-5 at many random positions and score.
 
-Design choices (see docs in each function, and report/report.md):
+Design choices (see docs in each function, and Appendix A of report/MMA3001_Report.pdf):
     - Original timestamps are kept (no resampling to an exact grid), because
       resampling is itself an interpolation and would add error before the
       experiment starts. All methods work with unevenly spaced times.
